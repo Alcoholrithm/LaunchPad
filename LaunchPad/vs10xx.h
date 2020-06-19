@@ -33,7 +33,7 @@
 #ifndef VS10XX_H
 #define VS10XX_H
 #include <SPI.h>
-#include "pins_config.h"
+#include "pin.h"
 
 /** VS10xx SCI Write Command byte is 0x02 */
 #define VS_WRITE_COMMAND 0x02

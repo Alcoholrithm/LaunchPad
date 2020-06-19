@@ -32,7 +32,7 @@
 
 #include <SPI.h>
 #include "vs10xx.h"
-#include "pins_config.h"
+#include "pin.h"
 VS10XX vs1053;
 
 void VS10XX::init(void)
