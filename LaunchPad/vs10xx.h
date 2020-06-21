@@ -76,13 +76,13 @@
 class VS10XX : public SPIClass
 {
 public:
-  void selectControlBus(void)   { digitalWrite(VS_XCS, LOW);}
-  void deselectControlBus(void) { digitalWrite(VS_XCS, HIGH);}
-  void selectDataBus(void)      { digitalWrite(VS_XDCS, LOW);}
-  void deselectDataBus(void)    { digitalWrite(VS_XDCS, HIGH);}
-  void putInReset(void)         { digitalWrite(VS_XRESET, LOW);}
-  void releaseFromReset(void)   { digitalWrite(VS_XRESET, HIGH);}
-  char readDREQ(void) { return digitalRead(VS_DREQ);}
+  void selectControlBus(void)   { digitalWrite(pin::vs_xcs, LOW);}
+  void deselectControlBus(void) { digitalWrite(pin::vs_xcs, HIGH);}
+  void selectDataBus(void)      { digitalWrite(pin::vs_xdcs, LOW);}
+  void deselectDataBus(void)    { digitalWrite(pin::vs_xdcs, HIGH);}
+  void putInReset(void)         { digitalWrite(pin::vs_xreset, LOW);}
+  void releaseFromReset(void)   { digitalWrite(pin::vs_xreset, HIGH);}
+  char readDREQ(void) { return digitalRead(pin::vs_dreq);}
   
   void writeRegister(unsigned char addressbyte, unsigned int value);
   unsigned int readRegister(unsigned char addressbyte); /** Read the 16-bit value of a VS10xx register */

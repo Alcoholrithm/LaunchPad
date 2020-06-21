@@ -7,10 +7,6 @@
 #include "vs10xx.h"
 #include "myList.h"
 #include "button.h"
-#include <avr/pgmspace.h>
-
-#define MaxVol 250
-#define MinVol 100
 
 enum player_state
 {
@@ -22,7 +18,10 @@ enum player_state
 /*****************class for the music player*******************/
 class myPlayer
 {
-    //int Vol = 100;
+    static const uint8_t maxVol = 210;
+    static const uint8_t minVol = 0;
+    uint8_t Vol = 100; //작을 수록 소리가 큼.
+    uint16_t pre_resist;
     songInfo songs;
     void initIO();
     void initSD();
@@ -30,11 +29,13 @@ class myPlayer
 
 public:
     button_ button;
+    volatile uint16_t resist;
     volatile uint16_t input = 99;
     volatile player_state state = IDLE;
     void begin();
     void play(uint16_t);
     void run();
+    void setVol();
 };
 
 extern myPlayer player;

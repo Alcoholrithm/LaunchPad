@@ -40,12 +40,12 @@ void VS10XX::init(void)
   SPI.begin();
   SPI.setClockDivider(SPI_CLOCK_DIV2);
   
-  pinMode(VS_XRESET, OUTPUT);
-  pinMode(VS_DREQ, INPUT);
-  pinMode(VS_XDCS, OUTPUT);
-  pinMode(VS_XCS, OUTPUT);
-  digitalWrite(VS_XDCS, HIGH);
-  digitalWrite(VS_XCS, HIGH);
+  pinMode(pin::vs_xreset, OUTPUT);
+  pinMode(pin::vs_dreq, INPUT);
+  pinMode(pin::vs_xdcs, OUTPUT);
+  pinMode(pin::vs_xcs, OUTPUT);
+  digitalWrite(pin::vs_xdcs, HIGH);
+  digitalWrite(pin::vs_xcs, HIGH);
   
   reset();
   //Serial.println("iinitVS1053 done");
@@ -54,12 +54,12 @@ void VS10XX::init(void)
 void VS10XX::initForMidi(void)
 {
 	//init IO
-	pinMode(VS_XRESET, OUTPUT);
-	pinMode(VS_DREQ, INPUT);
-	pinMode(VS_XDCS, OUTPUT);
-	pinMode(VS_XCS, OUTPUT);
-	digitalWrite(VS_XDCS, HIGH);
-	digitalWrite(VS_XCS, HIGH);
+	pinMode(pin::vs_xreset, OUTPUT);
+	pinMode(pin::vs_dreq, INPUT);
+	pinMode(pin::vs_xdcs, OUTPUT);
+	pinMode(pin::vs_xcs, OUTPUT);
+	digitalWrite(pin::vs_xdcs, HIGH);
+	digitalWrite(pin::vs_xcs, HIGH);
 	
 	//init SPI
 	SPI.begin();

@@ -31,6 +31,7 @@ ISR(TIMER1_OVF_vect) //Timer1 Service
     {
         return;
     }
+    player.resist = analogRead(pin::resistor_pin);
     player.button.scan(&(player.input));
     switch (player.input)
     {
@@ -85,11 +86,11 @@ void myPlayer::initTimer1(void) //initialize Timer1 to 100us overflow
 /**************************************************************/
 void myPlayer::initIO(void)
 {
-    pinMode(SD_CS_PIN, OUTPUT);
-    digitalWrite(SD_CS_PIN, HIGH);
+    pinMode(pin::sd_cs_pin, OUTPUT);
+    digitalWrite(pin::sd_cs_pin, HIGH);
 
-    pinMode(VS_XCS, OUTPUT);
-    digitalWrite(VS_XCS, HIGH);
+    pinMode(pin::vs_xcs, OUTPUT);
+    digitalWrite(pin::vs_xcs, HIGH);
 }
 
 /**************************************************************/
@@ -99,7 +100,7 @@ void myPlayer::initSD(void)
     char name[13];
 
     /* init sd card */
-    if (!card.init(SPI_FULL_SPEED, SD_CS_PIN)) //SPI_FULL_SPEED
+    if (!card.init(SPI_FULL_SPEED, pin::sd_cs_pin)) //SPI_FULL_SPEED
     {
         Serial.println("SD initialization failed.");
         while (1)
@@ -168,6 +169,7 @@ void myPlayer::play(uint16_t index)
     {
         // actual audio data gets sent to VS10xx.
         sig = 1; //enable interrupt
+        setVol();
         VS1053.writeData(fileBuf, bytes);
         switch (input)
         {
@@ -221,6 +223,7 @@ void myPlayer::play(uint16_t index)
 
 void myPlayer::run(void)
 {
+    setVol();
     switch (input)
     {
     SONGSWITCH:
@@ -246,4 +249,13 @@ void myPlayer::run(void)
     if (input == 3)
         ;   //////////////////////////패턴 버튼 처리
             //pattern
+}
+
+
+void myPlayer::setVol(){
+    if(resist!=pre_resist){
+        pre_resist = resist;
+        Vol = map(resist, 0, 1023, minVol, maxVol);
+        VS1053.writeRegister(SPI_VOL, Vol * 0x101);
+    }
 }
