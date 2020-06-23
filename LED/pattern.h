@@ -19,7 +19,7 @@ public:
     void init(const uint8_t,const uint8_t,const uint8_t);
                   //curr_time과 pre_time비교.
     static void led(const uint8_t row, const uint8_t col, state_ state, uint8_t* color);     //인자로 들어간 led를 킴, state는 on, off
-    void operator()(uint8_t,uint8_t*);                 //표시할 패턴을 Led로 출력 해 줌. // pattern(uint8_t, uint8_t*)를 사용.
+    void operator()(uint8_t&,uint8_t*);                 //표시할 패턴을 Led로 출력 해 줌. // pattern(uint8_t, uint8_t*)를 사용.
     void set_pattern(void);                   //함수 포인터에 원하는 함수 저장.
 };
 

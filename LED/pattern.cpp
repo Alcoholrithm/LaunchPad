@@ -23,7 +23,7 @@ void pattern_::init(const uint8_t R, const uint8_t G, const uint8_t B)
     color[2] = B;
 }
 
-void pattern_::operator()(uint8_t button, uint8_t *color)
+void pattern_::operator()(uint8_t& button, uint8_t *color)
 {
     pattern(button, color);
 }
