@@ -52,6 +52,7 @@ volatile void button_::scan(int *input)
                         Serial.print("Key Up ");
                         Serial.println((curr_row * pin::num_btn_rows) + j);
                         *input = curr_row * pin::num_btn_rows + j;
+                        Serial1.write(*input);
                     }
                 }
             }

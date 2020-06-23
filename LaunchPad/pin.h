@@ -16,18 +16,19 @@ namespace pin
     //SD card select pin linked to pin53 of MCU
     const uint8_t sd_cs_pin = 53; 
 
-    //for buttons and leds
-    const uint8_t num_led_columns = 4;
-    const uint8_t num_led_rows = 4;
+    //for buttons
     const uint8_t num_btn_columns = 4;
     const uint8_t num_btn_rows = 4;
     const uint8_t btncolumnpins[num_btn_columns] = {2, 3, 4, 5};
     const uint8_t btnrowpins[num_btn_rows] = {26, 27, 28, 29};
-    const uint8_t ledcolumnpins[num_led_columns] = {42, 43, 44, 45};
-    const uint8_t colorpins[num_led_rows] = {22, 30, 33, 36};
 
     //for potentiometer
     const uint8_t resistor_pin = A6;
 
+    //for Serial1 not using in code;
+    /*
+        RX = 19;
+        TX - 18;
+    */
 } // namespace pin
 #endif

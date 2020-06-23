@@ -141,6 +141,7 @@ void myPlayer::begin(void)
     initSD();
     VS1053.init();
     button.init();
+    Serial1.begin(9600);
     initTimer1(); // init timer1
     strncpy(songs.current_song, songs.shortList[0], songs.name_length);
 }
@@ -251,9 +252,10 @@ void myPlayer::run(void)
             //pattern
 }
 
-
-void myPlayer::setVol(){
-    if(resist!=pre_resist){
+void myPlayer::setVol()
+{
+    if (resist != pre_resist)
+    {
         pre_resist = resist;
         Vol = map(resist, 0, 1023, minVol, maxVol);
         VS1053.writeRegister(SPI_VOL, Vol * 0x101);
