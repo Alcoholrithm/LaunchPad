@@ -29,7 +29,7 @@ void timer(void){
         do
         {
             curr_time = millis();
-        } while (curr_time - pre_time > 500);
+        } while (curr_time - pre_time < 500);
 }
 
 void pattern_::init(const uint8_t R, const uint8_t G, const uint8_t B){//색상 초기화
