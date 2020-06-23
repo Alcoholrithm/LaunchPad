@@ -25,5 +25,9 @@ public:
 };
 
 extern void timer(void);
+using ull = unsigned long long;
+static ull pre_time;
+static ull curr_time;
+
 
 #endif

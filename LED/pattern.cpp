@@ -5,7 +5,7 @@ void pattern_::led(const uint8_t row, const uint8_t col, state_ state, uint8_t* 
 {
     if(row<0 || row >= pin::num_led_rows || col < 0 || col>= pin::num_led_columns)
         return;
-    digitalWrite(pin::ledselpins[col], LOW);
+    //digitalWrite(pin::ledselpins[col], LOW);
     if (state == ON)
     {
         for (uint8_t j = 0; j < 3; ++j)
@@ -18,11 +18,8 @@ void pattern_::led(const uint8_t row, const uint8_t col, state_ state, uint8_t* 
             digitalWrite(pin::ledcolorpins[row][j], 0);
         Serial.println(String(row * 4 + col) + " off");
     }
-    digitalWrite(pin::ledselpins[col], HIGH);
+    //digitalWrite(pin::ledselpins[col], HIGH);
 }
-using ull = unsigned long long;
-static  ull pre_time;
-static ull curr_time;
 
 void timer(void){
         pre_time = millis();

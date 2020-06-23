@@ -66,7 +66,7 @@ void pattern1(uint8_t button, uint8_t *color)
         {
             pre_time = millis();
             curr_time = millis();
-            while (curr_time - pre_time() < 500)
+            while (curr_time - pre_time < 500)
             {
                 curr_time = millis();
                 if (col + j < pin::num_led_columns && col + j >= 0)
