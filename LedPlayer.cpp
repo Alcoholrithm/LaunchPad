@@ -8,7 +8,7 @@ void LedPlayer::init(){
     */
    for (uint8_t i = 0; i < pin::num_led_columns; ++i){
        pinMode(pin::ledselpins[i], OUTPUT);
-       digitalWrite(pin::ledselpins[i], LOW);//모두 전원 인가
+       digitalWrite(pin::ledselpins[i], HIGH);
    }
 
    for (uint8_t i = 0; i < pin::num_led_columns; ++i){
@@ -57,15 +57,29 @@ void pattern1(uint8_t button, uint8_t* color){
         }
         else
         {
-            pattern_::led(row, col+j, ON, color);
-            pattern_::led(row, col-j, ON, color);
-            pattern_::led(row+j, col, ON, color);
-            pattern_::led(row-j, col, ON, color);
-            timer();
-            pattern_::led(row, col+j, OFF, color);
-            pattern_::led(row, col-j, OFF, color);
-            pattern_::led(row+j, col, OFF, color);
-            pattern_::led(row-j, col, OFF, color);
+            pre_time = millis();
+            curr_time = millis();
+            while(curr_time - pre_time()<500){
+                digitalWrite(pin::ledselpins[col+j], LOW);
+                pattern_::led(row, col+j, ON, color);
+                digitalWrite(pin::ledselpins[col + j], HIGH);
+                digitalWrite(pin::ledselpins[col - j], LOW);
+                pattern_::led(row, col-j, ON, color);
+                digitalWrite(pin::ledselpins[col - j], HIGH);
+                digitalWrite(pin::ledselpins[col], LOW);
+                pattern_::led(row+j, col, ON, color);
+                pattern_::led(row-j, col, ON, color);
+                digitalWrite(pin::ledselpins[col], HIGH);
+            }
+            // pattern_::led(row, col+j, ON, color);
+            // pattern_::led(row, col-j, ON, color);
+            // pattern_::led(row+j, col, ON, color);
+            // pattern_::led(row-j, col, ON, color);
+            // timer();
+            // pattern_::led(row, col+j, OFF, color);
+            // pattern_::led(row, col-j, OFF, color);
+            // pattern_::led(row+j, col, OFF, color);
+            // pattern_::led(row-j, col, OFF, color);
         }
     }
 }
