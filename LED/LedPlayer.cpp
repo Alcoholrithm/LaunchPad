@@ -73,12 +73,14 @@ void pattern1(uint8_t button, uint8_t *color)
                 {
                     digitalWrite(pin::ledselpins[col + j], LOW);
                     pattern_::led(row, col + j, ON, color);
+                    pattern_::led(row, col + j, OFF, color);
                     digitalWrite(pin::ledselpins[col + j], HIGH);
                 }
                 if (col - j < pin::num_led_columns && col - j >= 0)
                 {
                     digitalWrite(pin::ledselpins[col - j], LOW);
                     pattern_::led(row, col - j, ON, color);
+                    pattern_::led(row, col - j, OFF, color);
                     digitalWrite(pin::ledselpins[col - j], HIGH);
                 }
                 if (col < pin::num_led_columns && col >= 0)
@@ -86,6 +88,8 @@ void pattern1(uint8_t button, uint8_t *color)
                     digitalWrite(pin::ledselpins[col], LOW);
                     pattern_::led(row + j, col, ON, color);
                     pattern_::led(row - j, col, ON, color);
+                    pattern_::led(row + j, col, OFF, color);
+                    pattern_::led(row - j, col, OFF, color);
                     digitalWrite(pin::ledselpins[col], HIGH);
                 }
             }
