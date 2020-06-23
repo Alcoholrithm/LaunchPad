@@ -21,7 +21,7 @@ void LedPlayer::init()
         }
     }
 
-    myPattern[0].pattern = pattern1;  // 패턴 지정
+    myPattern[0].pattern = pattern2;  // 패턴 지정
     myPattern[0].init(150, 150, 150); //색상 지정
 }
 
@@ -59,7 +59,7 @@ void pattern1(uint8_t button, uint8_t *color)
         {
             pre_time = millis();
             curr_time = millis();
-            while (curr_time - pre_time < 1000)
+            while (curr_time - pre_time < 100)
             {
               curr_time = millis();
               digitalWrite(pin::ledselpins[col + j], LOW);
@@ -72,25 +72,25 @@ void pattern1(uint8_t button, uint8_t *color)
         {
             pre_time = millis();
             curr_time = millis();
-            while (curr_time - pre_time < 1000)
+            while (curr_time - pre_time < 100)
             {
                 curr_time = millis();
                 if (col + j < pin::num_led_columns && col + j >= 0)
-                {
+                { // row +
                     digitalWrite(pin::ledselpins[col + j], LOW);
                     pattern_::led(row, col + j, ON, color);
                     pattern_::led(row, col + j, OFF, color);
                     digitalWrite(pin::ledselpins[col + j], HIGH);
                 }
                 if (col - j < pin::num_led_columns && col - j >= 0)
-                {
+                { // row -
                     digitalWrite(pin::ledselpins[col - j], LOW);
                     pattern_::led(row, col - j, ON, color);
                     pattern_::led(row, col - j, OFF, color);
                     digitalWrite(pin::ledselpins[col - j], HIGH);
                 }
                 if (col < pin::num_led_columns && col >= 0)
-                {
+                { // col
                     digitalWrite(pin::ledselpins[col], LOW);
                     pattern_::led(row + j, col, ON, color);
                     pattern_::led(row - j, col, ON, color);
@@ -99,15 +99,63 @@ void pattern1(uint8_t button, uint8_t *color)
                     digitalWrite(pin::ledselpins[col], HIGH);
                 }
             }
-            // pattern_::led(row, col+j, ON, color);
-            // pattern_::led(row, col-j, ON, color);
-            // pattern_::led(row+j, col, ON, color);
-            // pattern_::led(row-j, col, ON, color);
-            // timer();
-            // pattern_::led(row, col+j, OFF, color);
-            // pattern_::led(row, col-j, OFF, color);
-            // pattern_::led(row+j, col, OFF, color);
-            // pattern_::led(row-j, col, OFF, color);
+        }
+    }
+}
+
+void pattern2(uint8_t button, uint8_t *color)
+{
+    /*
+        첫번째 패턴 : 엑스
+    */
+    uint8_t row = button / pin::num_led_rows;
+    uint8_t col = button % pin::num_led_rows;
+
+    for (int j = 0; j < 4; j++)
+    {
+        if (j == 0)
+        {
+            pre_time = millis();
+            curr_time = millis();
+            while (curr_time - pre_time < 100)
+            {
+              curr_time = millis();
+              digitalWrite(pin::ledselpins[col + j], LOW);
+              pattern_::led(row, col, ON, color);
+              pattern_::led(row, col, OFF, color);
+              digitalWrite(pin::ledselpins[col + j], HIGH);
+            }
+        }
+        else
+        {
+            pre_time = millis();
+            curr_time = millis();
+            while (curr_time - pre_time < 100)
+            {
+                curr_time = millis();
+                if (col + j < pin::num_led_columns && col + j >= 0)
+                { // row +
+                    digitalWrite(pin::ledselpins[col + j], LOW);
+                    pattern_::led(row + j, col + j, ON, color);
+                    pattern_::led(row - j, col + j, ON, color);
+                    pattern_::led(row + j, col + j, OFF, color);
+                    pattern_::led(row - j, col + j, OFF, color);
+                    digitalWrite(pin::ledselpins[col + j], HIGH);
+                }
+                if (col - j < pin::num_led_columns && col - j >= 0)
+                { // row -
+                    digitalWrite(pin::ledselpins[col - j], LOW);
+                    pattern_::led(row + j, col - j, ON, color);
+                    pattern_::led(row - j, col - j, ON, color);
+                    pattern_::led(row + j, col - j, OFF, color);
+                    pattern_::led(row - j, col - j, OFF, color);
+                    digitalWrite(pin::ledselpins[col - j], HIGH);
+                }
+                if (col < pin::num_led_columns && col >= 0)
+                { // col
+
+                }
+            }
         }
     }
 }
