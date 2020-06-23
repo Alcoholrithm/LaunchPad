@@ -24,7 +24,7 @@ void LedPlayer::init()
     myPattern[0].init(150, 150, 150); //색상 지정
     myPattern[1].pattern = pattern2;  // 패턴 지정
     myPattern[1].init(150, 150, 150); //색상 지정
-    curr_pattern = 1; //테스트 코드, 출력하고 싶은 패턴으로
+    curr_pattern = 0; //테스트 코드, 출력하고 싶은 패턴으로
 }
 
 void LedPlayer::operator()(uint8_t& button)
@@ -41,15 +41,10 @@ void LedPlayer::run(void)
         loop안에서 돌아가는 함수
         시리얼 통신을 통해 눌러진 버튼 값을 받고 정해진 패턴으로 출력하는 pattern[button]()을 호출;
     */
-    /*for (uint8_t i = 0; i < 16; ++i)
+    for (uint8_t i = 0; i < 16; i++)
     {
-        player(i);
-    }*/
-    
-    if(Serial.available() > 0)
-    {
-      input = Serial.read();
-      player(input-48);
+        uint8_t j = i;
+        player(j);
     }
 }
 
@@ -95,185 +90,8 @@ void LedPlayer::initTimer1(void) //initialize Timer1 to 100us overflow
     sei(); //enable global interrupt
 }
 
-
 /*
     button 사용 후에는 99로 초기화
     button이 99면 패턴 호출 x
     패턴이 진행중일때에도 button이 계속 99인지 체크하고 아니면 바로 종료
 */
-unsigned long long pre_time,curr_time;
-void pattern1(uint8_t& button, uint8_t *color)
-{
-    /*
-        첫번째 패턴 : 십자가
-    */
-    uint8_t row = button / pin::num_led_rows;
-    uint8_t col = button % pin::num_led_rows;
-
-    button = 99;//initialize
-
-    for (int j = 0; j < 4&&button==99; j++)
-    {
-        if (j == 0)
-        {
-            pre_time = millis();
-            curr_time = millis();
-            while (curr_time - pre_time < 100 && button == 99)
-            {
-              curr_time = millis();
-              digitalWrite(pin::ledselpins[col + j], LOW);
-              pattern_::led(row, col, ON, color);
-              pattern_::led(row, col, OFF, color);
-              digitalWrite(pin::ledselpins[col + j], HIGH);
-            }
-        }
-        else
-        {
-            pre_time = millis();
-            curr_time = millis();
-            while (curr_time - pre_time < 100&& button==99)
-            {
-                curr_time = millis();
-                if (col + j < pin::num_led_columns && col + j >= 0)
-                { // row +
-                    digitalWrite(pin::ledselpins[col + j], LOW);
-                    pattern_::led(row, col + j, ON, color);
-                    pattern_::led(row, col + j, OFF, color);
-                    digitalWrite(pin::ledselpins[col + j], HIGH);
-                }
-                if (col - j < pin::num_led_columns && col - j >= 0)
-                { // row -
-                    digitalWrite(pin::ledselpins[col - j], LOW);
-                    pattern_::led(row, col - j, ON, color);
-                    pattern_::led(row, col - j, OFF, color);
-                    digitalWrite(pin::ledselpins[col - j], HIGH);
-                }
-                if (col < pin::num_led_columns && col >= 0)
-                { // col
-                    digitalWrite(pin::ledselpins[col], LOW);
-                    pattern_::led(row + j, col, ON, color);
-                    pattern_::led(row - j, col, ON, color);
-                    pattern_::led(row + j, col, OFF, color);
-                    pattern_::led(row - j, col, OFF, color);
-                    digitalWrite(pin::ledselpins[col], HIGH);
-                }
-            }
-        }
-    }
-}
-
-void pattern2(uint8_t& button, uint8_t *color)
-{
-    /*
-        두번째 패턴 : 엑스
-    */
-    uint8_t row = button / pin::num_led_rows;
-    uint8_t col = button % pin::num_led_rows;
-
-    button = 99; //initialize
-
-    for (int j = 0; j < 4&&button == 99; j++)
-    {
-        if (j == 0)
-        {
-            pre_time = millis();
-            curr_time = millis();
-            while (curr_time - pre_time < 100 && button == 99)
-            {
-              curr_time = millis();
-              digitalWrite(pin::ledselpins[col + j], LOW);
-              pattern_::led(row, col, ON, color);
-              pattern_::led(row, col, OFF, color);
-              digitalWrite(pin::ledselpins[col + j], HIGH);
-            }
-        }
-        else
-        {
-            pre_time = millis();
-            curr_time = millis();
-            while (curr_time - pre_time < 100 && button == 99)
-            {
-                curr_time = millis();
-                if (col + j < pin::num_led_columns && col + j >= 0)
-                { // row +
-                    digitalWrite(pin::ledselpins[col + j], LOW);
-                    pattern_::led(row + j, col + j, ON, color);
-                    pattern_::led(row - j, col + j, ON, color);
-                    pattern_::led(row + j, col + j, OFF, color);
-                    pattern_::led(row - j, col + j, OFF, color);
-                    digitalWrite(pin::ledselpins[col + j], HIGH);
-                }
-                if (col - j < pin::num_led_columns && col - j >= 0)
-                { // row -
-                    digitalWrite(pin::ledselpins[col - j], LOW);
-                    pattern_::led(row + j, col - j, ON, color);
-                    pattern_::led(row - j, col - j, ON, color);
-                    pattern_::led(row + j, col - j, OFF, color);
-                    pattern_::led(row - j, col - j, OFF, color);
-                    digitalWrite(pin::ledselpins[col - j], HIGH);
-                }
-                if (col < pin::num_led_columns && col >= 0)
-                { // col
-
-                }
-            }
-        }
-    }
-}
-
-void pattern3(uint8_t button, uint8_t *color)
-{
-    /*
-        첫번째 패턴 : 엑스
-    */
-    uint8_t row = button / pin::num_led_rows;
-    uint8_t col = button % pin::num_led_rows;
-
-    for (int j = 0; j < 4; j++)
-    {
-        if (j == 0)
-        {
-            pre_time = millis();
-            curr_time = millis();
-            while (curr_time - pre_time < 100)
-            {
-              curr_time = millis();
-              digitalWrite(pin::ledselpins[col + j], LOW);
-              pattern_::led(row, col, ON, color);
-              pattern_::led(row, col, OFF, color);
-              digitalWrite(pin::ledselpins[col + j], HIGH);
-            }
-        }
-        else
-        {
-            pre_time = millis();
-            curr_time = millis();
-            while (curr_time - pre_time < 100)
-            {
-                curr_time = millis();
-                if (col + j < pin::num_led_columns && col + j >= 0)
-                { // row +
-                    digitalWrite(pin::ledselpins[col + j], LOW);
-                    pattern_::led(row + j, col + j, ON, color);
-                    pattern_::led(row - j, col + j, ON, color);
-                    pattern_::led(row + j, col + j, OFF, color);
-                    pattern_::led(row - j, col + j, OFF, color);
-                    digitalWrite(pin::ledselpins[col + j], HIGH);
-                }
-                if (col - j < pin::num_led_columns && col - j >= 0)
-                { // row -
-                    digitalWrite(pin::ledselpins[col - j], LOW);
-                    pattern_::led(row + j, col - j, ON, color);
-                    pattern_::led(row - j, col - j, ON, color);
-                    pattern_::led(row + j, col - j, OFF, color);
-                    pattern_::led(row - j, col - j, OFF, color);
-                    digitalWrite(pin::ledselpins[col - j], HIGH);
-                }
-                if (col < pin::num_led_columns && col >= 0)
-                { // col
-
-                }
-            }
-        }
-    }
-}

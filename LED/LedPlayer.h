@@ -19,9 +19,9 @@ private:
     void send_max_pattern(void){}//시작시 시리얼로 max_pattern 전송해줌.
 };
 
-extern void pattern1(uint8_t, uint8_t*); // 십자가
-extern void pattern2(uint8_t, uint8_t*); // 엑스
-extern void pattern3(uint8_t, uint8_t*); // 원형
+extern void pattern1(uint8_t&, uint8_t*); // 십자가
+extern void pattern2(uint8_t&, uint8_t*); // 엑스
+extern void pattern3(uint8_t&, uint8_t*); // 원형
 extern LedPlayer player;
 extern unsigned long long pre_time, curr_time;
 extern uint8_t input;
