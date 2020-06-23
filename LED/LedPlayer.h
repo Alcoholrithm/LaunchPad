@@ -18,4 +18,5 @@ public:
 extern void pattern1(uint8_t, uint8_t*);
 extern LedPlayer player;
 extern unsigned long long pre_time, curr_time;
+
 #endif

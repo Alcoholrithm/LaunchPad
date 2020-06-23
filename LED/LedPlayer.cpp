@@ -57,16 +57,22 @@ void pattern1(uint8_t button, uint8_t *color)
     {
         if (j == 0)
         {
-            Serial.println("P");
-            pattern_::led(row, col, ON, color);
-            timer();
-            pattern_::led(row, col, OFF, color);
+            pre_time = millis();
+            curr_time = millis();
+            while (curr_time - pre_time < 1000)
+            {
+              curr_time = millis();
+              digitalWrite(pin::ledselpins[col + j], LOW);
+              pattern_::led(row, col, ON, color);
+              pattern_::led(row, col, OFF, color);
+              digitalWrite(pin::ledselpins[col + j], HIGH);
+            }
         }
         else
         {
             pre_time = millis();
             curr_time = millis();
-            while (curr_time - pre_time < 500)
+            while (curr_time - pre_time < 1000)
             {
                 curr_time = millis();
                 if (col + j < pin::num_led_columns && col + j >= 0)
