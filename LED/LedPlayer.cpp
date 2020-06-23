@@ -21,7 +21,7 @@ void LedPlayer::init()
         }
     }
 
-    myPattern[0].pattern = pattern2;  // 패턴 지정
+    myPattern[0].pattern = pattern1;  // 패턴 지정
     myPattern[0].init(150, 150, 150); //색상 지정
 }
 
@@ -39,9 +39,15 @@ void LedPlayer::run(void)
         loop안에서 돌아가는 함수
         시리얼 통신을 통해 눌러진 버튼 값을 받고 정해진 패턴으로 출력하는 pattern[button]()을 호출;
     */
-    for (uint8_t i = 0; i < 16; ++i)
+    /*for (uint8_t i = 0; i < 16; ++i)
     {
         player(i);
+    }*/
+    
+    if(Serial.available() > 0)
+    {
+      input = Serial.read();
+      player(input-48);
     }
 }
 
@@ -104,6 +110,63 @@ void pattern1(uint8_t button, uint8_t *color)
 }
 
 void pattern2(uint8_t button, uint8_t *color)
+{
+    /*
+        첫번째 패턴 : 엑스
+    */
+    uint8_t row = button / pin::num_led_rows;
+    uint8_t col = button % pin::num_led_rows;
+
+    for (int j = 0; j < 4; j++)
+    {
+        if (j == 0)
+        {
+            pre_time = millis();
+            curr_time = millis();
+            while (curr_time - pre_time < 100)
+            {
+              curr_time = millis();
+              digitalWrite(pin::ledselpins[col + j], LOW);
+              pattern_::led(row, col, ON, color);
+              pattern_::led(row, col, OFF, color);
+              digitalWrite(pin::ledselpins[col + j], HIGH);
+            }
+        }
+        else
+        {
+            pre_time = millis();
+            curr_time = millis();
+            while (curr_time - pre_time < 100)
+            {
+                curr_time = millis();
+                if (col + j < pin::num_led_columns && col + j >= 0)
+                { // row +
+                    digitalWrite(pin::ledselpins[col + j], LOW);
+                    pattern_::led(row + j, col + j, ON, color);
+                    pattern_::led(row - j, col + j, ON, color);
+                    pattern_::led(row + j, col + j, OFF, color);
+                    pattern_::led(row - j, col + j, OFF, color);
+                    digitalWrite(pin::ledselpins[col + j], HIGH);
+                }
+                if (col - j < pin::num_led_columns && col - j >= 0)
+                { // row -
+                    digitalWrite(pin::ledselpins[col - j], LOW);
+                    pattern_::led(row + j, col - j, ON, color);
+                    pattern_::led(row - j, col - j, ON, color);
+                    pattern_::led(row + j, col - j, OFF, color);
+                    pattern_::led(row - j, col - j, OFF, color);
+                    digitalWrite(pin::ledselpins[col - j], HIGH);
+                }
+                if (col < pin::num_led_columns && col >= 0)
+                { // col
+
+                }
+            }
+        }
+    }
+}
+
+void pattern3(uint8_t button, uint8_t *color)
 {
     /*
         첫번째 패턴 : 엑스

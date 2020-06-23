@@ -15,9 +15,11 @@ public:
     ~LedPlayer(){}
 };
 
-extern void pattern1(uint8_t, uint8_t*);
-extern void pattern2(uint8_t, uint8_t*);
+extern void pattern1(uint8_t, uint8_t*); // 십자가
+extern void pattern2(uint8_t, uint8_t*); // 엑스
+extern void pattern3(uint8_t, uint8_t*); // 원형
 extern LedPlayer player;
 extern unsigned long long pre_time, curr_time;
+extern uint8_t input;
 
 #endif
