@@ -17,8 +17,11 @@ namespace pin
         {34,35,36},
         {40,41,42} 
     };
-    //for serial
-    //something
+    //for serial not using in code;
+    /*
+        RX = 19;
+        TX = 18;
+    */
 
 } // namespace pin
 #endif
