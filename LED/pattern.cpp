@@ -10,13 +10,13 @@ void pattern_::led(const uint8_t row, const uint8_t col, state_ state, uint8_t* 
     {
         for (uint8_t j = 0; j < 3; ++j)
             digitalWrite(pin::ledcolorpins[row][j], color[j]);
-        Serial.println(String(row*4+col) + " on");
+        //Serial.println(String(row*4+col) + " on");
     }
     else
     {
         for (uint8_t j = 0; j < 3; ++j)
             digitalWrite(pin::ledcolorpins[row][j], 0);
-        Serial.println(String(row * 4 + col) + " off");
+        //Serial.println(String(row * 4 + col) + " off");
     }
     //digitalWrite(pin::ledselpins[col], HIGH);
 }
