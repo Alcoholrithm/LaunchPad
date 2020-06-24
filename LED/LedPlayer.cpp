@@ -42,11 +42,16 @@ void LedPlayer::run(void)
         loop안에서 돌아가는 함수
         시리얼 통신을 통해 눌러진 버튼 값을 받고 정해진 패턴으로 출력하는 pattern[button]()을 호출;
     */
+    if (player.button<16){
+        player(player.button);
+    }
+    /*
     for (uint8_t i = 0; i < 16; i++)
     {
         uint8_t j = i;
         player(j);
     }
+    */
 }
 
 ISR(TIMER1_OVF_vect) //Timer1 Service
