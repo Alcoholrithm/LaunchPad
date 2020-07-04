@@ -25,7 +25,9 @@ void LedPlayer::init()
     myPattern[0].init(150, 150, 150); //색상 지정
     myPattern[1].pattern = pattern2;  // 패턴 지정
     myPattern[1].init(150, 150, 150); //색상 지정
-    curr_pattern = 0;                 //테스트 코드, 출력하고 싶은 패턴으로
+    myPattern[2].pattern = pattern3;  // 패턴 지정
+    myPattern[2].init(150, 150, 150); //색상 지정
+    curr_pattern = 2;                 //테스트 코드, 출력하고 싶은 패턴으로
 }
 
 void LedPlayer::operator()(uint8_t &button)
@@ -42,16 +44,15 @@ void LedPlayer::run(void)
         loop안에서 돌아가는 함수
         시리얼 통신을 통해 눌러진 버튼 값을 받고 정해진 패턴으로 출력하는 pattern[button]()을 호출;
     */
-    if (player.button<16){
+    /*if (player.button<16){
         player(player.button);
     }
-    /*
-    for (uint8_t i = 0; i < 16; i++)
+    */
+    for (uint8_t i = 0; i < 15; i++)
     {
         uint8_t j = i;
         player(j);
     }
-    */
 }
 
 ISR(TIMER1_OVF_vect) //Timer1 Service
@@ -70,6 +71,7 @@ ISR(TIMER1_OVF_vect) //Timer1 Service
         }
     }
 }
+
 #define RESOLUTION 65536             // Timer1 is 16 bit
     void LedPlayer::initTimer1(void) //initialize Timer1 to 100us overflow
     {
