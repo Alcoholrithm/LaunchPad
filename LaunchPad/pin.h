@@ -3,7 +3,7 @@
 
 #include <avr/io.h>
 #include <arduino.h>
-
+#include <SoftwareSerial.h>
 
 namespace pin
 {
@@ -15,7 +15,7 @@ namespace pin
 
     //SD card select pin linked to pin53 of MCU
     const uint8_t sd_cs_pin = 53; 
-
+    // sd_sel_pin = 9;
     //for buttons
     const uint8_t num_btn_columns = 4;
     const uint8_t num_btn_rows = 4;

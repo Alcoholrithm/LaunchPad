@@ -20,7 +20,7 @@ void LedPlayer::init()
             digitalWrite(pin::ledcolorpins[i][j], LOW);
         }
     }
-    Serial1.begin(9600);
+    Serial.begin(9600);
     myPattern[0].pattern = pattern1;  // 패턴 지정
     myPattern[0].init(150, 150, 150); //색상 지정
     myPattern[1].pattern = pattern2;  // 패턴 지정
@@ -44,10 +44,11 @@ void LedPlayer::run(void)
         loop안에서 돌아가는 함수
         시리얼 통신을 통해 눌러진 버튼 값을 받고 정해진 패턴으로 출력하는 pattern[button]()을 호출;
     */
-    /*if (player.button<16){
+    readSerial();
+    if (player.button<16){
         player(player.button);
     }
-    */
+    
     for (uint8_t i = 0; i < 15; i++)
     {
         uint8_t j = i;
@@ -55,23 +56,25 @@ void LedPlayer::run(void)
     }
 }
 
-ISR(TIMER1_OVF_vect) //Timer1 Service
-{
+//ISR(TIMER1_OVF_vect) //Timer1 Service
+//{
     /*
         if serail available -> read serial and renew player.button
         if button == 3 -> player.curr_pattern+=1; player.curr_pattern%=player.max_pattern;
     */
-    if (Serial1.available())
+    /*
+    if (Serial.available())
     {
         player.button = Serial.read();
+        Serial.print(player.button);
         if (player.button == 3)
         {
             player.curr_pattern += 1;
             player.curr_pattern %= player.max_pattern;
         }
-    }
-}
-
+    }*/
+//}
+/*
 #define RESOLUTION 65536             // Timer1 is 16 bit
     void LedPlayer::initTimer1(void) //initialize Timer1 to 100us overflow
     {
@@ -103,9 +106,26 @@ ISR(TIMER1_OVF_vect) //Timer1 Service
         TCNT1 = 0;
         sei(); //enable global interrupt
     }
-
+*/
     /*
     button 사용 후에는 99로 초기화
     button이 99면 패턴 호출 x
     패턴이 진행중일때에도 button이 계속 99인지 체크하고 아니면 바로 종료
 */
+
+
+void LedPlayer::readSerial(void){
+    char temp[3];
+    if (Serial.available()) {
+        player.button=0;
+        byte len = Serial.readBytesUntil('\n',temp, 3);
+        for (int i = 0; i < len; i++) {
+            player.button = player.button*10+temp[i]-'0';
+        }
+        Serial.println(player.button);
+    }
+    if (player.button==3){
+        curr_pattern+=1;
+        curr_pattern = curr_pattern%max_pattern; 
+    }
+}

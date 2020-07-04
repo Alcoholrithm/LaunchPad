@@ -258,6 +258,8 @@ void myPlayer::setVol()
     {
         pre_resist = resist;
         Vol = map(resist, 0, 1023, minVol, maxVol);
+        if (Vol ==100)
+            Vol = mute;
         VS1053.writeRegister(SPI_VOL, Vol * 0x101);
     }
 }

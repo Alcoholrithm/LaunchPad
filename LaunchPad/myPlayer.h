@@ -18,8 +18,9 @@ enum player_state
 /*****************class for the music player*******************/
 class myPlayer
 {
-    static const uint8_t maxVol = 210;
-    static const uint8_t minVol = 0;
+    static const uint8_t maxVol = 0;
+    static const uint8_t minVol = 100;
+    static const uint8_t mute = 200;
     uint8_t Vol = 100; //작을 수록 소리가 큼.
     uint16_t pre_resist;
     songInfo songs;
