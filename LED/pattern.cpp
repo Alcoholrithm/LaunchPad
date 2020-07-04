@@ -23,7 +23,41 @@ void pattern_::init(const uint8_t R, const uint8_t G, const uint8_t B)
     color[2] = B;
 }
 
-void pattern_::operator()(uint8_t& button, uint8_t *color)
+uint8_t* pattern_::get_color(void){
+    return color;
+} 
+
+void pattern_::set_pattern(void (*p)(uint8_t&, uint8_t*)){
+    pattern = p;  
+}
+
+uint64_t pattern_::sig = 0;
+void pattern_::operator()(uint8_t &button, uint8_t *color)
 {
-    pattern(button, color);
+    set_sig(INCREASE);
+    do
+    {
+        Serial.print(button);
+        Serial.print(' ');
+        pattern(button, color);
+        if (get_sig())
+            button = random(16);
+    } while (get_sig());
+}
+
+void pattern_::set_sig(SIG state)
+{
+    if (state == RESET)
+    {
+        sig = 0;
+    }
+    else
+    {
+        ++sig;
+    }
+}
+
+uint64_t pattern_::get_sig(void)
+{
+    return sig;
 }
