@@ -126,7 +126,7 @@ void myPlayer::initSD(void)
             if (file.open(&root, index, O_READ))
             {
                 file.close();
-                songs.appendsong(name, index);
+                tracks.appendtrack(name, index);
                 Serial.println(name);
             }
         }
@@ -135,7 +135,7 @@ void myPlayer::initSD(void)
 }
 
 /**************************************************************/
-void myPlayer::begin(void)
+void myPlayer::init(void)
 {
     initIO();
     initSD();
@@ -143,7 +143,8 @@ void myPlayer::begin(void)
     button.init();
     Serial1.begin(9600);
     initTimer1(); // init timer1
-    strncpy(songs.current_song, songs.shortList[0], songs.name_length);
+    current_pattern = 0;
+    strncpy(tracks.current_track, tracks.shortList[0], tracks.get_length());
 }
 
 /**************************************************************/
@@ -154,15 +155,15 @@ void myPlayer::play(uint16_t index)
     unsigned char n;
     SPI.setClockDivider(SPI_CLOCK_DIV2);
     sig = 0; //disable interrupt
-    if (file.open(&root, songs.fileIndex[songs.find(songs.current_song)][index], O_READ))
+    if (file.open(&root, tracks.fileIndex[tracks.find(tracks.current_track)][index], O_READ))
     {
         Serial.print("Playing ");
-        Serial.println(songs.current_song);
+        Serial.println(tracks.current_track);
     }
     else
     {
         Serial.print("Could not open: ");
-        Serial.println(songs.current_song);
+        Serial.println(tracks.current_track);
         return;
     }
     state = PLAY;
@@ -182,14 +183,14 @@ void myPlayer::play(uint16_t index)
             //pattern
             break;
         case 0:
-            songs.move_back();
+            tracks.move_back();
             input = 99;
-            Serial.println(songs.current_song);
+            Serial.println(tracks.current_track);
             break;
         case 1:
-            songs.move_forward();
+            tracks.move_forward();
             input = 99;
-            Serial.println(songs.current_song);
+            Serial.println(tracks.current_track);
             break;
             //   play 상태에서 -> 얘는 play()함수 내부에서 처리
             // 곡 누르면 바로 곡 재생
@@ -236,14 +237,14 @@ void myPlayer::run(void)
         switch (input)
         {
         case 0:
-            songs.move_back();
+            tracks.move_back();
             input = 99;
-            Serial.println(songs.current_song);
+            Serial.println(tracks.current_track);
             break;
         case 1:
-            songs.move_forward();
+            tracks.move_forward();
             input = 99;
-            Serial.println(songs.current_song);
+            Serial.println(tracks.current_track);
             break;
         }
     }

@@ -7,6 +7,7 @@
 #include "vs10xx.h"
 #include "myList.h"
 #include "button.h"
+#include "lcd.h"
 
 enum player_state
 {
@@ -23,20 +24,22 @@ class myPlayer
     static const uint8_t mute = 200;
     uint8_t Vol = 100; //작을 수록 소리가 큼.
     uint16_t pre_resist;
-    songInfo songs;
+    trackInfo tracks;
     void initIO();
     void initSD();
     void initTimer1();
-
+    uint8_t current_pattern;
+    uint8_t max_pattern;
+    void setVol();
+    LCD lcd;
 public:
     button_ button;
     volatile uint16_t resist;
     volatile uint16_t input = 99;
     volatile player_state state = IDLE;
-    void begin();
+    void init();
     void play(uint16_t);
     void run();
-    void setVol();
 };
 
 extern myPlayer player;

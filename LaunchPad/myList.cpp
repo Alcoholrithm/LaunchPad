@@ -2,23 +2,23 @@
 #include "myList.h"
 #include <SD.h>
 
-void songInfo::appendsong(char *str, uint16_t index)
+void trackInfo::appendtrack(char *str, uint16_t index)
 { //곡 정보 추가
     int i;
-    char name[name_length];
+    char name[length];
     int num = 0;
-    for (i = 0; i < name_length && str[i] != '@'; ++i)
+    for (i = 0; i < length && str[i] != '@'; ++i)
         name[i] = str[i];
     name[i++] = '\0';
-    for (; i < name_length && str[i] != '.'; ++i)
+    for (; i < length && str[i] != '.'; ++i)
         num = num * 10 + str[i] - '0';
     for (i = 0; i < size && strcmp(shortList[i], name); ++i)
         ;
     if (i == size)
-        strncpy(shortList[size++], name, name_length);
+        strncpy(shortList[size++], name, length);
     fileIndex[find(name)][num] = index;
 }
-int songInfo::find(const char *str) const
+int trackInfo::find(const char *str) const
 { //  shortList에 저장된 위치 반환 없으면 -1
     for (int i = 0; i < size; ++i)
         if (!strcmp(shortList[i], str))
@@ -33,14 +33,18 @@ int songInfo::find(const char *str) const
     return -1;
 }
 
-void songInfo::move_forward()
+void trackInfo::move_forward()
 { //shortList의 다음 인덱스로 이동
-    strncpy(current_song, shortList[(find(current_song) + 1) % size], name_length);
+    strncpy(current_track, shortList[(find(current_track) + 1) % size], length);
 }
 
-void songInfo::move_back() //shortList의 이전 인덱스로 이동
+void trackInfo::move_back() //shortList의 이전 인덱스로 이동
 {
-    int8_t index = find(current_song) - 1;
+    int8_t index = find(current_track) - 1;
     index = index < 0 ? size - 1 : index;
-    strncpy(current_song, shortList[index], name_length);
+    strncpy(current_track, shortList[index], length);
+}
+
+const int trackInfo::get_length() const{
+    return trackInfo::length;
 }

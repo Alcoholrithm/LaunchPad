@@ -8,7 +8,7 @@ myPlayer player;
 void setup()
 {
     Serial.begin(115200);
-    player.begin();
+    player.init();
 }
 
 void loop()
