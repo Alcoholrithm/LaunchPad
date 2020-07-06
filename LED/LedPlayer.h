@@ -12,7 +12,7 @@ public:
     void readSerial(void);
 private:
     uint8_t button = 99;                  //사용 후 반드시 99로 초기화해주기
-    static const uint8_t max_pattern = 2; //패턴의 경우의 수 저장.
+    static const uint8_t max_pattern = 3; //패턴의 경우의 수 저장.
     uint8_t curr_pattern = 0;
     pattern_ myPattern[max_pattern];
     void operator()(uint8_t&); //인자로 들어오는 패턴을 호출;

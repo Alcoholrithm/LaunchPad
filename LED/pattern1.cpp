@@ -5,19 +5,22 @@ void pattern1(uint8_t& button, uint8_t *color)
     /*
         첫번째 패턴 : 십자가
     */
+
     uint8_t row = button / pin::num_led_rows;
     uint8_t col = button % pin::num_led_rows;
 
     button = 99;//initialize
 
-    for (int j = 0; j < 4&&button==99; j++)
+    for (int j = 0; j < 4 && button == 99; j++)
     {
         player.readSerial();
+        Serial.print("inner ");
+        Serial.println(button);
         if (j == 0)
         {
             pre_time = millis();
             curr_time = millis();
-            while (curr_time - pre_time < 100 && button == 99)
+            while (curr_time - pre_time < 1000 && button == 99)
             { // Point
               curr_time = millis();
               digitalWrite(pin::ledselpins[col], LOW);
@@ -30,7 +33,7 @@ void pattern1(uint8_t& button, uint8_t *color)
         {
             pre_time = millis();
             curr_time = millis();
-            while (curr_time - pre_time < 100&& button==99)
+            while (curr_time - pre_time < 1000 && button == 99)
             {
                 curr_time = millis();
                 if (col + j < pin::num_led_columns && col + j >= 0)

@@ -1,7 +1,10 @@
 #include "button.h"
 
+SoftwareSerial unoSerial(18, 19); // 18(A4):RX 19(A5):TX
+
 void button_::init()
 {
+    unoSerial.begin(9600);
     uint8_t i;
 
     // initialize
@@ -53,7 +56,7 @@ volatile void button_::scan(int *input)
                         Serial.println((curr_row * pin::num_btn_rows) + j);
                         *input = curr_row * pin::num_btn_rows + j;
                         Serial.print(*input);
-                        Serial1.print(*input); // 눌러진 버튼을 시리얼로 전송
+                        unoSerial.print(*input); // 눌러진 버튼을 시리얼로 전송
                     }
                 }
             }

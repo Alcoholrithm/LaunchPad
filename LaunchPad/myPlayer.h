@@ -8,6 +8,7 @@
 #include "myList.h"
 #include "button.h"
 #include "lcd.h"
+#include <SoftwareSerial.h>
 
 enum player_state
 {

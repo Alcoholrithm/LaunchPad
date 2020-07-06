@@ -10,7 +10,7 @@ void pattern2(uint8_t& button, uint8_t *color)
 
     button = 99; //initialize
 
-    for (int j = 0; j < 4&&button == 99; j++)
+    for (int j = 0; j < 4 && button == 99; j++)
     {
         player.readSerial();
         if (j == 0)

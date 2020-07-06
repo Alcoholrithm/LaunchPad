@@ -141,21 +141,20 @@ void myPlayer::init(void)
     initSD();
     VS1053.init();
     button.init();
-    Serial1.begin(9600);
     initTimer1(); // init timer1
     current_pattern = 0;
+    max_pattern = 3;
     strncpy(tracks.current_track, tracks.shortList[0], tracks.get_length());
-    while(!Serial1.available());
-    if(Serial1.available()){
+    /*while(!unoSerial.available());
+    if(unoSerial.available()){
         char temp[3];
         max_pattern = 0;
-        byte len = Serial1.readBytes(temp, 3);
+        byte len = unoSerial.readBytes(temp, 3);
         for (int i = 0; i < len; i++)
         {
             max_pattern = max_pattern * 10 + temp[i] - '0';
         }
-    }
-
+    }*/
 }
 
 /**************************************************************/

@@ -2,6 +2,8 @@
 #define BUTTON_H_
 
 #include "pin.h"
+#include <SoftwareSerial.h>
+
 class button_
 {
     uint8_t debounce_count[pin::num_btn_columns][pin::num_btn_rows]{

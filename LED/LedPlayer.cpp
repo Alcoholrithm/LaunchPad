@@ -1,5 +1,7 @@
 #include "LedPlayer.h"
 
+SoftwareSerial unoSerial(18, 19); // 18(A4):RX 19(A5):TX
+
 void LedPlayer::init()
 {
     /*
@@ -22,6 +24,7 @@ void LedPlayer::init()
     }
 
     Serial.begin(9600);
+    unoSerial.begin(9600);
     myPattern[0].set_pattern(pattern1);
     myPattern[0].init(150, 150, 150); //색상 지정
     myPattern[1].set_pattern(pattern2);
@@ -47,6 +50,7 @@ void LedPlayer::run(void)
     readSerial();
     if (player.button < 16)
     {
+        Serial.print("Press button ");
         Serial.println(player.button);
         player(player.button);
     }
@@ -68,19 +72,21 @@ void LedPlayer::readSerial(void)
 {
 
     char temp[3];
-    if (Serial.available())
+    if (unoSerial.available())
     {
         // Serial.println("asd");
         player.button = 0;
-        byte len = Serial.readBytes(temp, 3);
+        byte len = unoSerial.readBytes(temp, 3);
         for (int i = 0; i < len; i++)
         {
             player.button = player.button * 10 + temp[i] - '0';
         }
-        Serial.print("get ");
+        
+        Serial.print("UART Get ");
         Serial.println(player.button);
         pattern_::set_sig(RESET);
     }
+    
     if (player.button == 3)
     {
         curr_pattern += 1;
@@ -89,7 +95,7 @@ void LedPlayer::readSerial(void)
     
 }
 
-void LedPlayer::send_max_pattern(void)
+/*void LedPlayer::send_max_pattern(void)
 {
-    Serial.print(max_pattern);
-}
+    unoSerial.print(max_pattern);
+}*/
