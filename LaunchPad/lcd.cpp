@@ -10,18 +10,15 @@ void LCD::set_pattern(uint8_t recive_pattern) // 패턴 변경사항 current_pat
 {
     current_pattern = recive_pattern;
 }
-    
-void LCD::set_current_track(char* recive_track) // track변경사항을 current_track에 반영
+
+void LCD::set_current_track(char *recive_track) // track변경사항을 current_track에 반영
 {
-    current_track = recive_track;
+    strncpy(current_track, recive_track, 10);
+    printLcd();
 }
 
 void LCD::printLcd() //패턴과 트랙 출력
-{
-    lcd.setCursor(0, 0);
-    lcd.print(current_track);
-
-    lce.setCursor(0, 1);
-    lcd.print("Pattern : ");
-    lcd.print(current_pattern);
+{   
+    lcd.clear();
+    lcd.print(String("Track ") + current_track + "\nPattern #" + current_pattern);
 }

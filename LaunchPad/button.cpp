@@ -53,6 +53,7 @@ volatile void button_::scan(int *input)
                         Serial.println((curr_row * pin::num_btn_rows) + j);
                         *input = curr_row * pin::num_btn_rows + j;
                         Serial.print(*input);
+                        //Serial1.print(*input); // 눌러진 버튼을 시리얼로 전송
                     }
                 }
             }

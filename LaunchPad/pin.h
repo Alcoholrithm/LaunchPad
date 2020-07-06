@@ -14,7 +14,7 @@ namespace pin
     const uint8_t vs_xcs = A3;
 
     //SD card select pin linked to pin53 of MCU
-    const uint8_t sd_cs_pin = 53; 
+    const uint8_t sd_cs_pin = 53;
     // sd_sel_pin = 9;
     //for buttons
     const uint8_t num_btn_columns = 4;
@@ -24,6 +24,14 @@ namespace pin
 
     //for potentiometer
     const uint8_t resistor_pin = A6;
+
+    //for LCD
+    const uint8_t RS = 44;
+    const uint8_t E = 45;
+    const uint8_t D4 = 46;
+    const uint8_t D5 = 47;
+    const uint8_t D6 = 48;
+    const uint8_t D7 = 49;
 
     //for Serial1 not using in code;
     /*

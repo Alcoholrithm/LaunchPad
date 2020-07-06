@@ -180,15 +180,18 @@ void myPlayer::play(uint16_t index)
             file.close();
             return;
         case 3:
-            //pattern
+            next_pattern();
+            lcd.set_pattern(current_pattern);
             break;
         case 0:
             tracks.move_back();
+            lcd.set_current_track(tracks.current_track);
             input = 99;
             Serial.println(tracks.current_track);
             break;
         case 1:
             tracks.move_forward();
+            lcd.set_current_track(tracks.current_track);
             input = 99;
             Serial.println(tracks.current_track);
             break;
@@ -220,6 +223,7 @@ void myPlayer::play(uint16_t index)
     VS1053.softReset();
     Serial.println("[done!]");
     state = IDLE;
+    //Serial1.print(99);  // 재생이 종료되었음을 알려줌.
     sig = 1; //enable interrupt
 }
 
@@ -249,8 +253,10 @@ void myPlayer::run(void)
         }
     }
     if (input == 3)
-        ;   //////////////////////////패턴 버튼 처리
-            //pattern
+    {
+        next_pattern();
+        lcd.set_pattern(current_pattern);
+    }
 }
 
 void myPlayer::setVol()
@@ -259,8 +265,14 @@ void myPlayer::setVol()
     {
         pre_resist = resist;
         Vol = map(resist, 0, 1023, minVol, maxVol);
-        if (Vol ==100)
+        if (Vol == 100)
             Vol = mute;
         VS1053.writeRegister(SPI_VOL, Vol * 0x101);
     }
+}
+
+void myPlayer::next_pattern(void)
+{
+    current_pattern += 1;
+    current_pattern = current_pattern % max_pattern;
 }
