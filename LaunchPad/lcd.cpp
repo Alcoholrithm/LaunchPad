@@ -9,6 +9,7 @@ void LCD::init()
 void LCD::set_pattern(uint8_t recive_pattern) // 패턴 변경사항 current_pattern에 반영
 {
     current_pattern = recive_pattern;
+    printLcd();
 }
 
 void LCD::set_current_track(char *recive_track) // track변경사항을 current_track에 반영
