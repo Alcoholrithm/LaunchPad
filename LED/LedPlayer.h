@@ -16,7 +16,7 @@ private:
     uint8_t curr_pattern = 0;
     pattern_ myPattern[max_pattern];
     void operator()(uint8_t&); //인자로 들어오는 패턴을 호출;
-    void send_max_pattern(void){}//시작시 시리얼로 max_pattern 전송해줌.
+    void send_max_pattern(void);//시작시 시리얼로 max_pattern 전송해줌.
 };
 
 extern void pattern1(uint8_t&, uint8_t*); // 십자가

@@ -27,6 +27,7 @@ void LedPlayer::init()
     myPattern[1].set_pattern(pattern2);
     myPattern[1].init(150, 150, 150); //색상 지정
     curr_pattern = 0;                 //테스트 코드, 출력하고 싶은 패턴으로
+    //send_max_pattern();
 }
 
 void LedPlayer::operator()(uint8_t &button)
@@ -69,7 +70,7 @@ void LedPlayer::readSerial(void)
     char temp[3];
     if (Serial.available())
     {
-           // Serial.println("asd");
+        // Serial.println("asd");
         player.button = 0;
         byte len = Serial.readBytes(temp, 3);
         for (int i = 0; i < len; i++)
@@ -86,4 +87,9 @@ void LedPlayer::readSerial(void)
         curr_pattern = curr_pattern % max_pattern;
     }
     
+}
+
+void LedPlayer::send_max_pattern(void)
+{
+    Serial.print(max_pattern);
 }
