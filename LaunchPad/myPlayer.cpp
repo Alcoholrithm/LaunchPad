@@ -145,6 +145,17 @@ void myPlayer::init(void)
     initTimer1(); // init timer1
     current_pattern = 0;
     strncpy(tracks.current_track, tracks.shortList[0], tracks.get_length());
+    while(!Serial1.available());
+    if(Serial1.available()){
+        char temp[3];
+        max_pattern = 0;
+        byte len = Serial1.readBytes(temp, 3);
+        for (int i = 0; i < len; i++)
+        {
+            max_pattern = max_pattern * 10 + temp[i] - '0';
+        }
+    }
+
 }
 
 /**************************************************************/
@@ -185,13 +196,11 @@ void myPlayer::play(uint16_t index)
             break;
         case 0:
             tracks.move_back();
-            lcd.set_current_track(tracks.current_track);
             input = 99;
             Serial.println(tracks.current_track);
             break;
         case 1:
             tracks.move_forward();
-            lcd.set_current_track(tracks.current_track);
             input = 99;
             Serial.println(tracks.current_track);
             break;
@@ -233,6 +242,7 @@ void myPlayer::run(void)
     switch (input)
     {
     SONGSWITCH:
+        lcd.set_current_track(tracks.current_track);
         play(input - 4);
         return;
     }
